@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="div-center">
+      Multicast DNS Resolution
+    </ion-title>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <div class="div-center">
+            <ion-button color="success" (click)="presentAlertPrompt()">Publish</ion-button>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="div-center">
+            <ion-button color="success" (click)="watchService()">Scan</ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+  <div class="no-data" *ngIf="registerdServices.length === 0">
+    <ion-label text-right>No Data..</ion-label>
+  </div>
+  <div ion-fixed class="main-content" (click)="watchService()">
+    <ion-list *ngIf="registerdServices.length > 0">
+      <ion-item *ngFor="let item of registerdServices">
+        <ion-avatar slot="start">
+          <img src="../../assets/icon/favicon.png">
+        </ion-avatar>
+        <ion-label>
+          <h2>Name: {{item.serviceName}}</h2>
+          <h3>Type :{{item.serviceType}}</h3>
+          <h3>ServiceStatus :{{item.serviceStatus}}</h3>
+          <p>Ip :{{item.ipAddress}}</p>
+          <p>Port: {{item.portNumber}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
