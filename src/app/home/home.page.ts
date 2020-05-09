@@ -16,7 +16,7 @@ export class HomePage {
   loading: HTMLIonLoadingElement;
 
   constructor(private zeroconf: Zeroconf, private loadingController: LoadingController, private toastController: ToastController,
-    private alertCtrl: AlertController) {
+              private alertCtrl: AlertController) {
     this.intializeVariables();
   }
 
@@ -33,14 +33,19 @@ export class HomePage {
       // if (result.action === 'resolved' || result.action === 'registered') {
       // if (result.action === 'added') {
       console.log(result.service.ipv4Addresses, result.service.ipv6Addresses[0]);
-      let ipAddr = result.service.ipv4Addresses.length > 0 ? result.service.ipv4Addresses[0] : result.service.ipv6Addresses[0];
-      ipAddr = (ipAddr !== null && ipAddr !== undefined) ? ipAddr : null;
+      let ipAddr = '0';
+      if (result.service.ipv4Addresses.length > 0) {
+        ipAddr = result.service.ipv4Addresses[0];
+      }
+      if (result.service.ipv6Addresses.length > 0 && ipAddr === '0') {
+        ipAddr = result.service.ipv6Addresses[0];
+      }
       this.registerdServices.push({
         serviceName: result.service.name, ipAddress: ipAddr,
         portNumber: result.service.port, serviceType: result.action,
         serviceStatus: result.service.type
       });
-      this.registerdServices = orderBy(this.registerdServices, ['serviceName'], ['desc']);
+      this.registerdServices = orderBy(this.registerdServices, ['serviceName', 'ipAddress'], ['desc', 'desc']);
       this.registerdServices = this.registerdServices.filter(element => {
         return element.ipAddress !== null;
       });
