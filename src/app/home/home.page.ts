@@ -42,8 +42,8 @@ export class HomePage {
       }
       this.registerdServices.push({
         serviceName: result.service.name, ipAddress: ipAddr,
-        portNumber: result.service.port, serviceType: result.action,
-        serviceStatus: result.service.type
+        portNumber: result.service.port, serviceType: result.service.type,
+        serviceStatus: result.action
       });
       this.registerdServices = orderBy(this.registerdServices, ['serviceName', 'ipAddress'], ['desc', 'desc']);
       this.registerdServices = this.registerdServices.filter(element => {
